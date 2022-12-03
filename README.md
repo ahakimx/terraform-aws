@@ -3,24 +3,23 @@
 ### Overview
 This repo is a guide for provisioning AWS resources using Terraform.
 
-- IAM
-How to create IAM with AWS, you can use the below command:
+#### Requirements
+- Install terraform on your machine, tutorials [here](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
+- AWS Account (can use [free tier](https://aws.amazon.com/free/))
+#### Guide
+
+`cd [directory_you_want]` # select directory you want, and use the below command:
 ```bash
-cd iam
 terraform init
 terraform plan
 terraform apply
 ```
 
-
-- Provisioning EC2 Instance
+##### Example:
+Provisioning EC2 with terraform.
 ```bash
 cd ec2
 terraform init
 terraform plan
 terraform apply
-```
-- Destroy resources
-```bash
-terraform destroy
 ```
