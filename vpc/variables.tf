@@ -8,11 +8,11 @@ variable "az_a" {
 }
 
 variable "az_b" {
-    default = "us-east-1b"
+  default = "us-east-1b"
 }
 
 variable "az_c" {
-    default = "us-east-1c"
+  default = "us-east-1c"
 }
 
 variable "sn_reserved_a" {
