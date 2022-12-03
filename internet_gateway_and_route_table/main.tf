@@ -168,3 +168,93 @@ resource "aws_subnet" "sn_web_c" {
     "Name" = "sn-web-C"
   }
 }
+
+###################################
+######## Internet Gateway #########
+###################################
+
+resource "aws_internet_gateway" "aha_vpc1_igw" {
+  vpc_id = aws_vpc.aha_vpc1.id
+
+  tags = {
+    Name = "aha-vpc1-igw"
+  }
+}
+
+################################
+######## Route Table ###########
+################################
+resource "aws_route_table" "aha_vpc1_rt_table" {
+  vpc_id = aws_vpc.aha_vpc1.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.aha_vpc1_igw.id
+  }
+
+  route {
+    ipv6_cidr_block = "::/0"
+    gateway_id      = aws_internet_gateway.aha_vpc1_igw.id
+  }
+  tags = {
+    Name = "aha-vpc1-rt-web"
+  }
+}
+
+############################################
+######## Route Table Association ###########
+############################################
+resource "aws_route_table_association" "rta_web_a" {
+  subnet_id      = aws_subnet.sn_web_a.id
+  route_table_id = aws_route_table.aha_vpc1_rt_table.id
+}
+
+resource "aws_route_table_association" "rta_web_b" {
+  subnet_id      = aws_subnet.sn_web_b.id
+  route_table_id = aws_route_table.aha_vpc1_rt_table.id
+}
+
+resource "aws_route_table_association" "rta_web_c" {
+  subnet_id      = aws_subnet.sn_web_c.id
+  route_table_id = aws_route_table.aha_vpc1_rt_table.id
+}
+
+##################################
+######## EC2 Instance ############
+##################################
+resource "aws_instance" "aha_bastion" {
+  ami               = var.ami
+  instance_type     = var.instance_type
+  availability_zone = var.az_a
+  subnet_id         = aws_subnet.sn_web_a.id
+  key_name          = var.bastion_key_name
+
+  vpc_security_group_ids = [
+    aws_security_group.aha_sg.id
+  ]
+
+  tags = {
+    Name = "aha-bastion"
+  }
+}
+####################################
+######## Security Group ############
+####################################
+resource "aws_security_group" "aha_sg" {
+  name   = "aha-bastion-sg"
+  vpc_id = aws_vpc.aha_vpc1.id
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 22
+    to_port     = 22
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+  protocol = "-1"
+  from_port = 0
+  to_port = 0
+  cidr_blocks = ["0.0.0.0/0"]
+  }
+}
