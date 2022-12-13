@@ -11,6 +11,8 @@ This repo is a guide for provisioning AWS resources using Terraform.
 `cd [directory_you_want]` # select directory you want, and use the below command:
 ```bash
 terraform init
+terraform fmt
+terraform validate
 terraform plan
 terraform apply
 ```
@@ -20,6 +22,8 @@ Provisioning EC2 with terraform.
 ```bash
 cd ec2
 terraform init
+terraform fmt
+terraform validate
 terraform plan
 terraform apply
 ```
