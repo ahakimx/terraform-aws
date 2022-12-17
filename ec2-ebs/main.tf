@@ -232,10 +232,11 @@ resource "aws_key_pair" "aha_key_pair" {
 
 }
 
-#################################
-######## EC2 Instance ###########
-#################################
+#########################################################
+######## EC2 Instance - EBS Instance Test 0-1 ###########
+#########################################################
 resource "aws_instance" "ebs-instance-test" {
+  count             = var.instance_count
   ami               = var.ami
   instance_type     = var.instance_type
   availability_zone = var.az_a
@@ -246,7 +247,26 @@ resource "aws_instance" "ebs-instance-test" {
     aws_security_group.aha_sg.id
   ]
   tags = {
-    Name = " Aha-instance"
+    Name = "ebs-instance-test-${count.index}"
+  }
+}
+
+#########################################################
+######## EC2 Instance - EBS Instance Test 2 ###########
+#########################################################
+resource "aws_instance" "ebs-instance-test-2" {
+  ami               = var.ami
+  instance_type     = var.instance_type
+  availability_zone = var.az_b
+  subnet_id         = aws_subnet.sn_web_b.id
+  key_name = aws_key_pair.aha_key_pair.key_name
+
+  vpc_security_group_ids = [
+    aws_security_group.aha_sg.id
+  ]
+
+  tags = {
+    Name = "ebs-instance-test-2"
   }
 }
 
