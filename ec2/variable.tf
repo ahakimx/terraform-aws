@@ -74,7 +74,3 @@ variable "instance_type" {
 variable "key_pair" {
   default = "aha-key-pair"
 }
-
-variable "instance_count" {
-  default = 2
-}

@@ -240,13 +240,13 @@ resource "aws_instance" "ebs-instance-test" {
   instance_type     = var.instance_type
   availability_zone = var.az_a
   subnet_id         = aws_subnet.sn_web_a.id
-  key_name = aws_key_pair.aha_key_pair.key_name
+  key_name          = aws_key_pair.aha_key_pair.key_name
 
   vpc_security_group_ids = [
     aws_security_group.aha_sg.id
   ]
   tags = {
-    Name = " Aha-instance"
+    Name = "Aha-instance"
   }
 }
 
