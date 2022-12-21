@@ -235,7 +235,7 @@ resource "aws_key_pair" "aha_key_pair" {
 #################################
 ######## EC2 Instance ###########
 #################################
-resource "aws_instance" "ebs-instance-test" {
+resource "aws_instance" "aha_instance_test" {
   ami               = var.ami
   instance_type     = var.instance_type
   availability_zone = var.az_a
